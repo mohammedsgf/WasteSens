@@ -6,10 +6,10 @@ from typing import Optional, Tuple, Dict
 
 
 class Device:
-    """Represents an IoT device with location, battery, and empty level data"""
+    """Represents an IoT device with location, battery, and fill level data"""
     
     def __init__(self, device_id: str, location: Optional[Dict] = None, 
-                 battery_level: int = 0, empty_level: int = 0):
+                 battery_level: int = 0, fill_level: int = 0):
         """
         Initialize a device
         
@@ -17,12 +17,12 @@ class Device:
             device_id: Unique identifier for the device
             location: Dictionary with 'latitude' and 'longitude' keys, or None
             battery_level: Battery level percentage (0-100)
-            empty_level: Empty level percentage (0-100)
+            fill_level: Fill level percentage (0-100)
         """
         self.device_id = device_id
         self._location = location
         self.battery_level = max(0, min(100, battery_level))  # Clamp to 0-100
-        self.empty_level = max(0, min(100, empty_level))  # Clamp to 0-100
+        self.fill_level = max(0, min(100, fill_level))  # Clamp to 0-100
         self.last_update = datetime.now()
         self.connected = True  # Device connection status
     
@@ -55,21 +55,21 @@ class Device:
     
     def update(self, location: Optional[Dict] = None, 
                battery_level: Optional[int] = None, 
-               empty_level: Optional[int] = None):
+               fill_level: Optional[int] = None):
         """
         Update device data
         
         Args:
             location: New location dictionary
             battery_level: New battery level
-            empty_level: New empty level
+            fill_level: New fill level
         """
         if location is not None:
             self.location = location
         if battery_level is not None:
             self.battery_level = max(0, min(100, battery_level))
-        if empty_level is not None:
-            self.empty_level = max(0, min(100, empty_level))
+        if fill_level is not None:
+            self.fill_level = max(0, min(100, fill_level))
         self.last_update = datetime.now()
         self.connected = True  # Mark as connected when updated
     
@@ -100,10 +100,10 @@ class Device:
                 'longitude': loc[1] if loc else None
             } if loc else None,
             'battery_level': self.battery_level,
-            'empty_level': self.empty_level,
+            'fill_level': self.fill_level,
             'last_update': self.last_update.isoformat()
         }
     
     def __repr__(self) -> str:
-        return f"Device(id={self.device_id}, battery={self.battery_level}%, empty={self.empty_level}%)"
+        return f"Device(id={self.device_id}, battery={self.battery_level}%, fill={self.fill_level}%)"
 

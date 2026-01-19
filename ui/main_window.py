@@ -240,7 +240,7 @@ class MainWindow(QMainWindow):
             "Features:\n"
             "- Real-time device tracking on geographic map\n"
             "- MQTT integration for live data\n"
-            "- Battery and empty level monitoring\n"
+            "- Battery and fill level monitoring\n"
             "- Multiple device support\n\n"
             f"MQTT Broker: {config.MQTT_BROKER_HOST}:{config.MQTT_BROKER_PORT}\n"
             f"Topic Pattern: {config.MQTT_TOPIC_PATTERN}"

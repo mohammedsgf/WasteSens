@@ -72,35 +72,35 @@ class MapWidget(QWidget):
         
         // Set up JavaScript bridge functions
         window.qtMapWidget = {{
-            addMarker: function(deviceId, lat, lng, battery, empty, isConnected) {{
+            addMarker: function(deviceId, lat, lng, battery, fill, isConnected) {{
                 if (window.map) {{
                     // Remove existing marker if present
                     if (window.markers && window.markers[deviceId]) {{
                         window.map.removeLayer(window.markers[deviceId]);
                     }}
                     
-                    // Determine colors based on connection status, battery, and empty level
+                    // Determine colors based on connection status, battery, and fill level
                     var batteryColor;
-                    var emptyColor;
+                    var fillColor;
                     var opacity = 1.0;
                     
                     if (isConnected === false) {{
                         batteryColor = 'gray';
-                        emptyColor = 'gray';
+                        fillColor = 'gray';
                         opacity = 0.6;
                     }} else {{
                         // Battery level color (outer ring)
                         batteryColor = battery < 20 ? 'red' : (battery < 50 ? 'orange' : 'green');
-                        // Empty level color (inner circle) - inverse logic (high empty = bad)
-                        emptyColor = empty > 80 ? 'red' : (empty > 50 ? 'orange' : 'green');
+                        // Fill level color (inner circle) - inverse logic (high fill = bad)
+                        fillColor = fill > 80 ? 'red' : (fill > 50 ? 'orange' : 'green');
                     }}
                     
-                    // Create marker with dual indicators: outer ring (battery) and inner circle (empty)
+                    // Create marker with dual indicators: outer ring (battery) and inner circle (fill)
                     var marker = L.marker([lat, lng], {{
                         icon: L.divIcon({{
                             className: 'device-marker',
                             html: '<div style="position: relative; width: 24px; height: 24px;">' +
-                                  '<div style="position: absolute; width: 24px; height: 24px; border-radius: 50%; border: 3px solid ' + batteryColor + '; background-color: ' + emptyColor + '; box-shadow: 0 2px 4px rgba(0,0,0,0.3); opacity: ' + opacity + ';"></div>' +
+                                  '<div style="position: absolute; width: 24px; height: 24px; border-radius: 50%; border: 3px solid ' + batteryColor + '; background-color: ' + fillColor + '; box-shadow: 0 2px 4px rgba(0,0,0,0.3); opacity: ' + opacity + ';"></div>' +
                                   '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; border-radius: 50%; background-color: white; border: 1px solid ' + batteryColor + ';"></div>' +
                                   '</div>',
                             iconSize: [24, 24],
@@ -110,48 +110,48 @@ class MapWidget(QWidget):
                     
                     var statusText = isConnected === false ? '<span style="color: red;">[DISCONNECTED]</span><br>' : '';
                     var batteryColorText = battery < 20 ? 'red' : (battery < 50 ? 'orange' : 'green');
-                    var emptyColorText = empty > 80 ? 'red' : (empty > 50 ? 'orange' : 'green');
+                    var fillColorText = fill > 80 ? 'red' : (fill > 50 ? 'orange' : 'green');
                     var popupContent = '<b>Device: ' + deviceId + '</b><br>' +
                                       statusText +
                                       '<b>Battery:</b> <span style="color: ' + batteryColorText + ';">' + battery + '%</span> (Ring color)<br>' +
-                                      '<b>Empty Level:</b> <span style="color: ' + emptyColorText + ';">' + empty + '%</span> (Circle color)<br>' +
+                                      '<b>Fill Level:</b> <span style="color: ' + fillColorText + ';">' + fill + '%</span> (Circle color)<br>' +
                                       'Location: ' + lat.toFixed(4) + ', ' + lng.toFixed(4);
                     marker.bindPopup(popupContent);
                     
                     if (!window.markers) window.markers = {{}};
                     if (!window.deviceData) window.deviceData = {{}};
                     window.markers[deviceId] = marker;
-                    window.deviceData[deviceId] = {{battery: battery, empty: empty, connected: isConnected}};
+                    window.deviceData[deviceId] = {{battery: battery, fill: fill, connected: isConnected}};
                     console.log('Marker added for device: ' + deviceId + ' (connected: ' + isConnected + ')');
                 }} else {{
                     console.error('Map not initialized when trying to add marker for: ' + deviceId);
                 }}
             }},
-            updateMarker: function(deviceId, lat, lng, battery, empty, isConnected) {{
+            updateMarker: function(deviceId, lat, lng, battery, fill, isConnected) {{
                 if (window.markers && window.markers[deviceId]) {{
                     var marker = window.markers[deviceId];
                     marker.setLatLng([lat, lng]);
                     
-                    // Determine colors based on connection status, battery, and empty level
+                    // Determine colors based on connection status, battery, and fill level
                     var batteryColor;
-                    var emptyColor;
+                    var fillColor;
                     var opacity = 1.0;
                     
                     if (isConnected === false) {{
                         batteryColor = 'gray';
-                        emptyColor = 'gray';
+                        fillColor = 'gray';
                         opacity = 0.6;
                     }} else {{
                         // Battery level color (outer ring)
                         batteryColor = battery < 20 ? 'red' : (battery < 50 ? 'orange' : 'green');
-                        // Empty level color (inner circle) - inverse logic (high empty = bad)
-                        emptyColor = empty > 80 ? 'red' : (empty > 50 ? 'orange' : 'green');
+                        // Fill level color (inner circle) - inverse logic (high fill = bad)
+                        fillColor = fill > 80 ? 'red' : (fill > 50 ? 'orange' : 'green');
                     }}
                     
                     marker.setIcon(L.divIcon({{
                         className: 'device-marker',
                         html: '<div style="position: relative; width: 24px; height: 24px;">' +
-                              '<div style="position: absolute; width: 24px; height: 24px; border-radius: 50%; border: 3px solid ' + batteryColor + '; background-color: ' + emptyColor + '; box-shadow: 0 2px 4px rgba(0,0,0,0.3); opacity: ' + opacity + ';"></div>' +
+                              '<div style="position: absolute; width: 24px; height: 24px; border-radius: 50%; border: 3px solid ' + batteryColor + '; background-color: ' + fillColor + '; box-shadow: 0 2px 4px rgba(0,0,0,0.3); opacity: ' + opacity + ';"></div>' +
                               '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; border-radius: 50%; background-color: white; border: 1px solid ' + batteryColor + ';"></div>' +
                               '</div>',
                         iconSize: [24, 24],
@@ -160,26 +160,26 @@ class MapWidget(QWidget):
                     
                     var statusText = isConnected === false ? '<span style="color: red;">[DISCONNECTED]</span><br>' : '';
                     var batteryColorText = battery < 20 ? 'red' : (battery < 50 ? 'orange' : 'green');
-                    var emptyColorText = empty > 80 ? 'red' : (empty > 50 ? 'orange' : 'green');
+                    var fillColorText = fill > 80 ? 'red' : (fill > 50 ? 'orange' : 'green');
                     var popupContent = '<b>Device: ' + deviceId + '</b><br>' +
                                       statusText +
                                       '<b>Battery:</b> <span style="color: ' + batteryColorText + ';">' + battery + '%</span> (Ring color)<br>' +
-                                      '<b>Empty Level:</b> <span style="color: ' + emptyColorText + ';">' + empty + '%</span> (Circle color)<br>' +
+                                      '<b>Fill Level:</b> <span style="color: ' + fillColorText + ';">' + fill + '%</span> (Circle color)<br>' +
                                       'Location: ' + lat.toFixed(4) + ', ' + lng.toFixed(4);
                     marker.setPopupContent(popupContent);
                     // Update device data
                     if (!window.deviceData) window.deviceData = {{}};
-                    window.deviceData[deviceId] = {{battery: battery, empty: empty, connected: isConnected}};
+                    window.deviceData[deviceId] = {{battery: battery, fill: fill, connected: isConnected}};
                     // If this is the selected device, update highlight
                     if (window.selectedDevice === deviceId) {{
-                        window.qtMapWidget.highlightDevice(deviceId, battery, empty, isConnected);
+                        window.qtMapWidget.highlightDevice(deviceId, battery, fill, isConnected);
                     }}
                     console.log('Marker updated for device: ' + deviceId + ' (connected: ' + isConnected + ')');
                 }} else {{
                     console.warn('Marker not found for device: ' + deviceId + ', adding new marker');
                     // If marker doesn't exist, add it
                     if (window.map && window.qtMapWidget) {{
-                        window.qtMapWidget.addMarker(deviceId, lat, lng, battery, empty, isConnected);
+                        window.qtMapWidget.addMarker(deviceId, lat, lng, battery, fill, isConnected);
                     }}
                 }}
             }},
@@ -233,7 +233,7 @@ class MapWidget(QWidget):
                     console.log('Map centered on device: ' + deviceId);
                 }}
             }},
-            highlightDevice: function(deviceId, battery, empty, isConnected) {{
+            highlightDevice: function(deviceId, battery, fill, isConnected) {{
                 // Unhighlight previous selection
                 if (window.selectedDevice && window.markers && window.markers[window.selectedDevice]) {{
                     var prevMarker = window.markers[window.selectedDevice];
@@ -241,16 +241,16 @@ class MapWidget(QWidget):
                     if (prevDevice) {{
                         // Restore normal size
                         var batteryColor = prevDevice.battery < 20 ? 'red' : (prevDevice.battery < 50 ? 'orange' : 'green');
-                        var emptyColor = prevDevice.empty > 80 ? 'red' : (prevDevice.empty > 50 ? 'orange' : 'green');
+                        var fillColor = prevDevice.fill > 80 ? 'red' : (prevDevice.fill > 50 ? 'orange' : 'green');
                         var opacity = prevDevice.connected ? 1.0 : 0.6;
                         if (!prevDevice.connected) {{
                             batteryColor = 'gray';
-                            emptyColor = 'gray';
+                            fillColor = 'gray';
                         }}
                         prevMarker.setIcon(L.divIcon({{
                             className: 'device-marker',
                             html: '<div style="position: relative; width: 24px; height: 24px;">' +
-                                  '<div style="position: absolute; width: 24px; height: 24px; border-radius: 50%; border: 3px solid ' + batteryColor + '; background-color: ' + emptyColor + '; box-shadow: 0 2px 4px rgba(0,0,0,0.3); opacity: ' + opacity + ';"></div>' +
+                                  '<div style="position: absolute; width: 24px; height: 24px; border-radius: 50%; border: 3px solid ' + batteryColor + '; background-color: ' + fillColor + '; box-shadow: 0 2px 4px rgba(0,0,0,0.3); opacity: ' + opacity + ';"></div>' +
                                   '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; border-radius: 50%; background-color: white; border: 1px solid ' + batteryColor + ';"></div>' +
                                   '</div>',
                             iconSize: [24, 24],
@@ -266,15 +266,15 @@ class MapWidget(QWidget):
                     
                     // Determine colors
                     var batteryColor;
-                    var emptyColor;
+                    var fillColor;
                     var opacity = 1.0;
                     if (isConnected === false) {{
                         batteryColor = 'gray';
-                        emptyColor = 'gray';
+                        fillColor = 'gray';
                         opacity = 0.6;
                     }} else {{
                         batteryColor = battery < 20 ? 'red' : (battery < 50 ? 'orange' : 'green');
-                        emptyColor = empty > 80 ? 'red' : (empty > 50 ? 'orange' : 'green');
+                        fillColor = fill > 80 ? 'red' : (fill > 50 ? 'orange' : 'green');
                     }}
                     
                     // Make marker bigger with glow effect
@@ -282,7 +282,7 @@ class MapWidget(QWidget):
                         className: 'device-marker-selected',
                         html: '<div style="position: relative; width: 36px; height: 36px;">' +
                               '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 36px; height: 36px; border-radius: 50%; background-color: ' + batteryColor + '; opacity: 0.3; box-shadow: 0 0 15px ' + batteryColor + ';"></div>' +
-                              '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 32px; height: 32px; border-radius: 50%; border: 4px solid ' + batteryColor + '; background-color: ' + emptyColor + '; box-shadow: 0 0 10px rgba(0,0,0,0.5), 0 0 20px ' + batteryColor + '; opacity: ' + opacity + ';"></div>' +
+                              '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 32px; height: 32px; border-radius: 50%; border: 4px solid ' + batteryColor + '; background-color: ' + fillColor + '; box-shadow: 0 0 10px rgba(0,0,0,0.5), 0 0 20px ' + batteryColor + '; opacity: ' + opacity + ';"></div>' +
                               '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 14px; height: 14px; border-radius: 50%; background-color: white; border: 2px solid ' + batteryColor + '; box-shadow: 0 0 5px rgba(0,0,0,0.3);"></div>' +
                               '</div>',
                         iconSize: [36, 36],
@@ -361,7 +361,7 @@ class MapWidget(QWidget):
                         {lat},
                         {lng},
                         {device.battery_level},
-                        {device.empty_level},
+                        {device.fill_level},
                         {str(device.connected).lower()}
                     );
                     console.log('Successfully added marker for device: {device_id_escaped}');
@@ -379,7 +379,7 @@ class MapWidget(QWidget):
                                 {lat},
                                 {lng},
                                 {device.battery_level},
-                                {device.empty_level},
+                                {device.fill_level},
                                 {str(device.connected).lower()}
                             );
                             console.log('Successfully added marker (retry) for device: {device_id_escaped}');
@@ -420,7 +420,7 @@ class MapWidget(QWidget):
                     {lat},
                     {lng},
                     {device.battery_level},
-                    {device.empty_level},
+                    {device.fill_level},
                     {str(device.connected).lower()}
                 );
             }} else {{
@@ -508,7 +508,7 @@ class MapWidget(QWidget):
                 window.qtMapWidget.highlightDevice(
                     '{device_id_escaped}',
                     {device.battery_level},
-                    {device.empty_level},
+                    {device.fill_level},
                     {str(device.connected).lower()}
                 );
             }}

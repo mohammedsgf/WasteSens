@@ -6,7 +6,7 @@ A real-time IoT device monitoring dashboard built with Python and Qt that fetche
 
 - **Real-time Device Tracking**: Monitor multiple IoT devices in real-time
 - **Geographic Map Visualization**: View device locations on an interactive OpenStreetMap
-- **Device Information Panel**: See battery levels, empty levels, and locations in a table
+- **Device Information Panel**: See battery levels, fill levels, and locations in a table
 - **MQTT Integration**: Automatically connects to MQTT broker and subscribes to device topics
 - **Color-coded Markers**: Visual indicators for device battery levels (green/orange/red)
 - **Device Filtering**: Search and filter devices by ID
@@ -50,7 +50,7 @@ The dashboard expects messages in the following JSON format:
     "longitude": -74.0060
   },
   "battery_level": 85,
-  "empty_level": 30
+  "fill_level": 30
 }
 ```
 
@@ -89,7 +89,7 @@ To test the dashboard, you can use a local MQTT broker like Mosquitto:
 
 3. Publish test messages:
    ```bash
-   mosquitto_pub -h localhost -t "smartwaste/device001/data" -m '{"device_id":"device001","location":{"latitude":40.7128,"longitude":-74.0060},"battery_level":85,"empty_level":30}'
+   mosquitto_pub -h localhost -t "smartwaste/device001/data" -m '{"device_id":"device001","location":{"latitude":40.7128,"longitude":-74.0060},"battery_level":85,"fill_level":30}'
    ```
 
 ## Configuration

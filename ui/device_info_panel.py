@@ -96,12 +96,12 @@ class DeviceInfoPanel(QWidget):
         self.info_layout.addWidget(QLabel("Battery Level:"), 2, 0)
         self.info_layout.addWidget(battery_label, 2, 1)
         
-        # Empty Level
-        empty_text = f"{device.empty_level}%"
-        empty_color = "green" if device.empty_level < 30 else ("orange" if device.empty_level < 70 else "red")
-        empty_label = QLabel(f'<span style="color: {empty_color}; font-weight: bold;">{empty_text}</span>')
-        self.info_layout.addWidget(QLabel("Empty Level:"), 3, 0)
-        self.info_layout.addWidget(empty_label, 3, 1)
+        # Fill Level
+        fill_text = f"{device.fill_level}%"
+        fill_color = "green" if device.fill_level < 30 else ("orange" if device.fill_level < 70 else "red")
+        fill_label = QLabel(f'<span style="color: {fill_color}; font-weight: bold;">{fill_text}</span>')
+        self.info_layout.addWidget(QLabel("Fill Level:"), 3, 0)
+        self.info_layout.addWidget(fill_label, 3, 1)
         
         # Location
         if device.location:
@@ -146,14 +146,14 @@ class DeviceInfoPanel(QWidget):
             battery_status = "✓ Good - Battery level acceptable"
         self._add_info_row("Battery Status:", battery_status, 10)
         
-        # Empty status
-        if device.empty_level > 80:
-            empty_status = "⚠️ Full - Container nearly full"
-        elif device.empty_level > 50:
-            empty_status = "⚠️ Moderate - Container filling up"
+        # Fill status
+        if device.fill_level > 80:
+            fill_status = "⚠️ Full - Container nearly full"
+        elif device.fill_level > 50:
+            fill_status = "⚠️ Moderate - Container filling up"
         else:
-            empty_status = "✓ Good - Container has space"
-        self._add_info_row("Empty Status:", empty_status, 11)
+            fill_status = "✓ Good - Container has space"
+        self._add_info_row("Fill Status:", fill_status, 11)
     
     def _add_info_row(self, label_text: str, value_text: str, row: int):
         """Add a row of information"""

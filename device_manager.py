@@ -61,7 +61,7 @@ class DeviceManager(QObject):
             # Extract device data
             location = payload.get('location')
             battery_level = payload.get('battery_level', 0)
-            empty_level = payload.get('empty_level', 0)
+            fill_level = payload.get('fill_level', 0)
             
             # Update or create device
             if device_id in self.devices:
@@ -71,7 +71,7 @@ class DeviceManager(QObject):
                 device.update(
                     location=location,
                     battery_level=battery_level,
-                    empty_level=empty_level
+                    fill_level=fill_level
                 )
                 logger.debug(f"Updated device: {device_id}")
                 # If device was disconnected and now reconnected, emit update
@@ -84,7 +84,7 @@ class DeviceManager(QObject):
                     device_id=device_id,
                     location=location,
                     battery_level=battery_level,
-                    empty_level=empty_level
+                    fill_level=fill_level
                 )
                 self.devices[device_id] = device
                 logger.info(f"Added new device: {device_id}")

@@ -46,7 +46,7 @@ class DevicePanel(QWidget):
         self.table = QTableWidget()
         self.table.setColumnCount(6)
         self.table.setHorizontalHeaderLabels([
-            "Device ID", "Status", "Battery %", "Empty %", "Latitude", "Longitude"
+            "Device ID", "Status", "Battery %", "fill_level", "Latitude", "Longitude"
         ])
         self.table.horizontalHeader().setStretchLastSection(True)
         self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
@@ -133,10 +133,10 @@ class DevicePanel(QWidget):
                 battery_item.setBackground(QColor(200, 255, 200))  # Light green
             self.table.setItem(row, 2, battery_item)
             
-            # Empty level
-            empty_item = QTableWidgetItem(f"{device.empty_level}%")
-            empty_item.setTextAlignment(Qt.AlignCenter)
-            self.table.setItem(row, 3, empty_item)
+            # Fill level
+            fill_item = QTableWidgetItem(f"{device.fill_level}%")
+            fill_item.setTextAlignment(Qt.AlignCenter)
+            self.table.setItem(row, 3, fill_item)
             
             # Location
             if device.location:
