@@ -5,7 +5,7 @@ Publishes 10 devices with different locations in Jeddah City, Saudi Arabia
 import json
 import time
 import paho.mqtt.client as mqtt
-import config
+from app.config import settings
 
 def publish_test_message(client, device_id: str, lat: float, lon: float, battery: int, fill: int):
     """Publish a test message to the MQTT broker"""
@@ -58,9 +58,9 @@ if __name__ == "__main__":
     ]
     
     try:
-        print(f"\nConnecting to {config.MQTT_BROKER_HOST}:{config.MQTT_BROKER_PORT}...")
+        print(f"\nConnecting to {settings.MQTT_BROKER_HOST}:{settings.MQTT_BROKER_PORT}...")
         client = mqtt.Client(client_id="test_publisher_jeddah")
-        client.connect(config.MQTT_BROKER_HOST, config.MQTT_BROKER_PORT, 60)
+        client.connect(settings.MQTT_BROKER_HOST, settings.MQTT_BROKER_PORT, 60)
         print("✓ Connected to MQTT broker\n")
         
         print("Publishing devices:")
