@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Smart Waste IoT Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block head_extra %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <span class="logo-icon">&#9851;</span>
+                <span class="logo-text">SmartWaste</span>
+            </a>
+            <div class="nav-links">
+                {% block nav_links %}
+                <a href="/" class="nav-link">Home</a>
+                <a href="/signin" class="nav-link">Sign In</a>
+                <a href="/signup" class="nav-link btn-nav-signup">Sign Up</a>
+                {% endblock %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="{% block main_class %}main-content{% endblock %}">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    {% block footer %}
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Smart Waste IoT Dashboard. All rights reserved.</p>
+        </div>
+    </footer>
+    {% endblock %}
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

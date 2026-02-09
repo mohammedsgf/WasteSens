@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Smart Waste IoT Dashboard - Real-Time Waste Monitoring{% endblock %}
+
+{% block body_class %}landing-page{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Smart Waste Management,<br>Simplified.</h1>
+        <p class="hero-subtitle">
+            Monitor your waste collection fleet in real time. Track fill levels,
+            battery status, and device locations on an interactive map &mdash; all from
+            your browser.
+        </p>
+        <div class="hero-actions">
+            <a href="/signup" class="btn btn-primary btn-lg">Get Started</a>
+            <a href="/signin" class="btn btn-outline btn-lg">Sign In</a>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features" id="features">
+    <div class="features-container">
+        <h2 class="section-title">Why SmartWaste?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">&#127758;</div>
+                <h3>Live Map Tracking</h3>
+                <p>See every device on an interactive map. Color-coded markers show battery and fill levels at a glance.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#128267;</div>
+                <h3>Battery Monitoring</h3>
+                <p>Get instant visibility into device battery health. Spot low-battery devices before they go offline.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#128202;</div>
+                <h3>Fill Level Alerts</h3>
+                <p>Know which containers are full and need collection. Optimize routes and reduce unnecessary trips.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#9889;</div>
+                <h3>Real-Time Updates</h3>
+                <p>Data streams live via MQTT and WebSocket. No page refreshes needed &mdash; see changes as they happen.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#128274;</div>
+                <h3>Secure Access</h3>
+                <p>JWT-based authentication protects your dashboard. Only authorized users can view device data.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#128640;</div>
+                <h3>Built to Scale</h3>
+                <p>Supports hundreds of devices. Clean architecture makes it easy to extend and integrate with other systems.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="cta-container">
+        <h2>Ready to optimize your waste collection?</h2>
+        <p>Create a free account and start monitoring your devices today.</p>
+        <a href="/signup" class="btn btn-primary btn-lg">Create Account</a>
+    </div>
+</section>
+{% endblock %}

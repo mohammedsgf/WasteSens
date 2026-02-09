@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Smart Waste IoT Dashboard{% endblock %}
+
+{% block body_class %}dashboard-page{% endblock %}
+
+{% block head_extra %}
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+{% endblock %}
+
+{% block nav_links %}
+<span class="nav-user">Hello, {{ user_name }}</span>
+<a href="/dashboard" class="nav-link active">Dashboard</a>
+<a href="#" class="nav-link" id="signout-btn">Sign Out</a>
+{% endblock %}
+
+{% block main_class %}dashboard-main{% endblock %}
+
+{% block content %}
+<!-- Status Bar -->
+<div class="status-bar">
+    <div class="status-indicator" id="mqtt-status">
+        <span class="status-dot disconnected"></span>
+        <span class="status-text">Connecting to MQTT...</span>
+    </div>
+    <div class="device-count">
+        Devices: <span id="device-count">0</span>
+    </div>
+</div>
+
+<!-- Dashboard Layout -->
+<div class="dashboard-container">
+    <!-- Map Panel (left) -->
+    <div class="map-panel">
+        <div id="map"></div>
+    </div>
+
+    <!-- Side Panel (right) -->
+    <div class="side-panel">
+        <!-- Device List -->
+        <div class="device-list-panel">
+            <div class="panel-header">
+                <h3>Devices</h3>
+                <input
+                    type="text"
+                    id="device-filter"
+                    placeholder="Search devices..."
+                    class="filter-input"
+                >
+            </div>
+            <div class="table-wrapper">
+                <table class="device-table" id="device-table">
+                    <thead>
+                        <tr>
+                            <th>Device ID</th>
+                            <th>Status</th>
+                            <th>Battery</th>
+                            <th>Fill</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody id="device-table-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Device Info Panel -->
+        <div class="device-info-panel" id="device-info-panel">
+            <div class="panel-header">
+                <h3>Device Information</h3>
+            </div>
+            <div class="info-content" id="device-info-content">
+                <p class="no-selection">Select a device to view details.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block scripts %}
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Pass server config to JS -->
+<script>
+    window.APP_CONFIG = {
+        mapCenterLat: {{ map_center_lat }},
+        mapCenterLng: {{ map_center_lng }},
+        mapZoom: {{ map_zoom }}
+    };
+</script>
+
+<script src="/static/js/map.js"></script>
+<script src="/static/js/dashboard.js"></script>
+{% endblock %}
