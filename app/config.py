@@ -43,7 +43,7 @@ class Settings(BaseSettings):
     DEFAULT_ZOOM_LEVEL: int = 13
 
     # Device timeout (seconds)
-    DEVICE_TIMEOUT_SECONDS: int = 3600
+    DEVICE_TIMEOUT_SECONDS: int = 10
 
     model_config = {
         "env_file": ".env",
