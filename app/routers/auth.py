@@ -62,17 +62,13 @@ async def signin(data: SignInRequest, db: Session = Depends(get_db)):
 
     Returns 200 with a Set-Cookie header on success, 401 on invalid credentials.
     """
-    logger.info(f"Sign-in attempt for email: {data.email}")
     user = db.query(User).filter(User.email == data.email).first()
     if not user:
-        logger.warning(f"No user found with email: {data.email}")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email or password.",
         )
-    pwd_ok = verify_password(data.password, user.hashed_password)
-    logger.info(f"Password verification result for {data.email}: {pwd_ok}")
-    if not pwd_ok:
+    if not verify_password(data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email or password.",

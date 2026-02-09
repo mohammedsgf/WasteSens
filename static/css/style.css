@@ -93,22 +93,36 @@ img {
 .nav-logo {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-gray-900);
     text-decoration: none;
+    line-height: 1;
+}
+
+.logo-text {
+    line-height: var(--nav-height);
 }
 
 .logo-icon {
-    font-size: 1.5rem;
-    color: var(--color-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    font-size: 1.25rem;
+    color: var(--color-white);
+    background: var(--color-primary);
+    border-radius: 50%;
+    line-height: 1;
 }
 
 .nav-links {
     display: flex;
     align-items: center;
     gap: 20px;
+    line-height: var(--nav-height);
 }
 
 .nav-link {
@@ -461,6 +475,11 @@ img {
     border-bottom: 1px solid var(--color-gray-200);
 }
 
+/* Full-width navbar on dashboard so logo aligns with map edge */
+.dashboard-page .nav-container {
+    max-width: 100%;
+}
+
 .dashboard-main {
     flex: 1;
     display: flex;
@@ -491,6 +510,7 @@ img {
     height: 8px;
     border-radius: 50%;
     display: inline-block;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .status-dot.connected {
@@ -500,6 +520,10 @@ img {
 
 .status-dot.disconnected {
     background: var(--color-danger);
+}
+
+.status-text {
+    transition: color 0.3s ease;
 }
 
 /* Dashboard Container */
@@ -614,15 +638,24 @@ img {
 
 .device-table tbody tr.selected {
     background: var(--color-primary-light);
+    box-shadow: inset 3px 0 0 var(--color-primary);
+}
+
+/* Tabular numbers so columns don't jump when values change */
+.device-table td {
+    font-variant-numeric: tabular-nums;
 }
 
 /* Status badges */
 .badge {
     display: inline-block;
-    padding: 2px 8px;
+    padding: 2px 10px;
     border-radius: 999px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
+    letter-spacing: 0.01em;
+    min-width: 56px;
+    text-align: center;
 }
 
 .badge-connected {

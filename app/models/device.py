@@ -11,6 +11,7 @@ class Device:
     def __init__(
         self,
         device_id: str,
+        owner_id: int,
         location: Optional[Dict] = None,
         battery_level: int = 0,
         fill_level: int = 0,
@@ -20,11 +21,13 @@ class Device:
 
         Args:
             device_id: Unique identifier for the device.
+            owner_id: ID of the user who owns this device.
             location: Dictionary with 'latitude' and 'longitude' keys, or None.
             battery_level: Battery level percentage (0-100).
             fill_level: Fill level percentage (0-100).
         """
         self.device_id = device_id
+        self.owner_id = owner_id
         self._location = location
         self.battery_level = max(0, min(100, battery_level))
         self.fill_level = max(0, min(100, fill_level))
@@ -83,6 +86,7 @@ class Device:
         loc = self.location
         return {
             "device_id": self.device_id,
+            "owner_id": self.owner_id,
             "location": {
                 "latitude": loc[0] if loc else None,
                 "longitude": loc[1] if loc else None,
@@ -96,4 +100,7 @@ class Device:
         }
 
     def __repr__(self) -> str:
-        return f"Device(id={self.device_id}, battery={self.battery_level}%, fill={self.fill_level}%)"
+        return (
+            f"Device(id={self.device_id}, owner={self.owner_id}, "
+            f"battery={self.battery_level}%, fill={self.fill_level}%)"
+        )
